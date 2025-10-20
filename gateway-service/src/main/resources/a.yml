@@ -1,0 +1,14 @@
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: keynote-service
+              uri: lb://KEYNOTE-SERVICE
+              predicates:
+                - Path= /api/keynotes/**
+            - id: conference-service
+              uri: lb://CONFERENCE-SERVICE
+              predicates:
+                - Path= /api/conferences/**

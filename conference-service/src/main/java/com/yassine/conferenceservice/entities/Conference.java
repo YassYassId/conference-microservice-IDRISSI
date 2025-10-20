@@ -34,6 +34,7 @@ public class Conference {
     @OneToMany(mappedBy = "conference")
     private List<Review> reviews = new ArrayList<>();
 
+    private List<String> keynoteIds;
     @Transient
     private List<Keynote> keynotes = new ArrayList<>();
 }

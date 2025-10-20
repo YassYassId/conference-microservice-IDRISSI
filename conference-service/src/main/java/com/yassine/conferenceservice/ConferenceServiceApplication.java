@@ -49,7 +49,8 @@ public class ConferenceServiceApplication {
 					.score(4.3)
 					.build();
 
-			conferenceRepository.saveAll(List.of(c1, c2));
+			List<Conference> conferences = List.of(c1, c2);
+			conferenceRepository.saveAll(conferences);
 
 			// --- Initialize Reviews ---
 			Review r1 = Review.builder()
@@ -78,33 +79,42 @@ public class ConferenceServiceApplication {
 
 			reviewRepository.saveAll(List.of(r1, r2, r3));
 
-			// --- Initialize Keynotes ---
-			PagedModel<Keynote> keynotesPaged = keynoteRestClient.getAllKeynotes();
-			System.out.println(keynotesPaged);
+			// --- Fetch all keynotes ---
+			List<Keynote> allKeynotes = new ArrayList<>(keynoteRestClient.getAllKeynotes().getContent());
 
-			Collection<Keynote> allKeynotes = keynotesPaged.getContent();
+			// --- Assign keynotes and IDs to conferences ---
+			Random random = new Random();
+			conferences.forEach(conference -> {
+				int numberOfKeynotes = 1 + random.nextInt(allKeynotes.size()); // random number of keynotes
+				List<Keynote> assignedKeynotes = new ArrayList<>();
+				List<String> assignedIds = new ArrayList<>();
 
-			List<Keynote> keynoteList = new ArrayList<>(allKeynotes);
-			// Example: Assign first half to c1, second half to c2
-			int half = keynoteList.size() / 2;
-			c1.setKeynotes(keynoteList.subList(0, half));
-			c2.setKeynotes(keynoteList.subList(half, allKeynotes.size()));
+				while (assignedKeynotes.size() < numberOfKeynotes) {
+					Keynote keynote = allKeynotes.get(random.nextInt(allKeynotes.size()));
+					if (!assignedKeynotes.contains(keynote)) {
+						assignedKeynotes.add(keynote);
+						assignedIds.add(keynote.getId());
+					}
+				}
 
-			// Update conferences with keynotes
-			conferenceRepository.saveAll(List.of(c1, c2));
+				conference.setKeynotes(assignedKeynotes);   // transient list
+				conference.setKeynoteIds(assignedIds);      // persisted list
+				conferenceRepository.save(conference);
+			});
 
 			// --- Print results ---
 			System.out.println("=== Conferences ===");
 			conferenceRepository.findAll().forEach(conf -> {
 				System.out.println(conf.getTitle() + " (" + conf.getType() + ")");
 				System.out.println("Keynotes:");
-				conf.getKeynotes().forEach(k -> System.out.println(" - " + k.getFirstName() + " " + k.getLastName()));
+				conf.getKeynotes().forEach(k ->
+						System.out.println(" - " + k.getFirstName() + " " + k.getLastName()));
+				System.out.println("Keynote IDs: " + conf.getKeynoteIds());
 			});
 
 			System.out.println("\n=== Reviews ===");
-			reviewRepository.findAll().forEach(review -> {
-				System.out.println(review.getComments() + " -> " + review.getConference().getTitle());
-			});
+			reviewRepository.findAll().forEach(review ->
+					System.out.println(review.getComments() + " -> " + review.getConference().getTitle()));
 		};
 	}
 }

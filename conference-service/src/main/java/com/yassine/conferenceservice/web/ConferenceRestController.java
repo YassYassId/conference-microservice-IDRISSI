@@ -39,8 +39,13 @@ public class ConferenceRestController {
         List<Review> reviews = reviewRepository.findByConferenceId(id);
         conference.setReviews(reviews);
 
-        PagedModel<Keynote> keynotePagedModel = keynoteRestClient.getAllKeynotes();
-        conference.setKeynotes(new ArrayList<>(keynotePagedModel.getContent()));
+        List<String> keynoteIds = conference.getKeynoteIds();
+
+        List<Keynote> keynotes = keynoteIds.stream()
+                .map(keynoteRestClient::getKeynoteById) // call for each ID
+                .toList();
+
+        conference.setKeynotes(new ArrayList<>(keynotes));
 
         return conference;
     }

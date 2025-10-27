@@ -1,5 +1,5 @@
 package com.yassine.conferenceservice.enums;
 
-public enum confType {
+public enum ConfType {
     ACADEMIC,COMMERCIAL;
 }

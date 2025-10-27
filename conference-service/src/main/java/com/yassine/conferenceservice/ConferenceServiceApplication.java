@@ -2,7 +2,7 @@ package com.yassine.conferenceservice;
 
 import com.yassine.conferenceservice.entities.Conference;
 import com.yassine.conferenceservice.entities.Review;
-import com.yassine.conferenceservice.enums.confType;
+import com.yassine.conferenceservice.enums.ConfType;
 import com.yassine.conferenceservice.feign.KeynoteRestClient;
 import com.yassine.conferenceservice.model.Keynote;
 import com.yassine.conferenceservice.repositories.ConferenceRepository;
@@ -12,7 +12,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
-import org.springframework.hateoas.PagedModel;
 
 import java.util.*;
 
@@ -25,14 +24,14 @@ public class ConferenceServiceApplication {
 	}
 
 	// Create a commandeline runner bean to initialize some data
-	@Bean
+//	@Bean
 	CommandLineRunner commandLineRunner(ConferenceRepository conferenceRepository, ReviewRepository reviewRepository, KeynoteRestClient keynoteRestClient) {
 		return args -> {
 			// --- Initialize Conferences ---
 			Conference c1 = Conference.builder()
 					.id(UUID.randomUUID().toString())
 					.title("AI & Data Summit 2025")
-					.type(confType.ACADEMIC)
+					.type(ConfType.ACADEMIC)
 					.startDate(new Date())
 					.duration(2.5)
 					.nbParticipants(300)
@@ -42,7 +41,7 @@ public class ConferenceServiceApplication {
 			Conference c2 = Conference.builder()
 					.id(UUID.randomUUID().toString())
 					.title("Tech Expo Casablanca 2025")
-					.type(confType.COMMERCIAL)
+					.type(ConfType.COMMERCIAL)
 					.startDate(new Date())
 					.duration(1.0)
 					.nbParticipants(500)

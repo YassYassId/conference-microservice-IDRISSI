@@ -1,52 +1,55 @@
 package com.yassine.conferenceservice.web;
 
+import com.yassine.conferenceservice.dtos.ConferenceRequest;
+import com.yassine.conferenceservice.dtos.ConferenceResponse;
+import com.yassine.conferenceservice.dtos.ReviewRequest;
+import com.yassine.conferenceservice.dtos.ReviewResponse;
 import com.yassine.conferenceservice.entities.Conference;
 import com.yassine.conferenceservice.entities.Review;
 import com.yassine.conferenceservice.feign.KeynoteRestClient;
 import com.yassine.conferenceservice.model.Keynote;
 import com.yassine.conferenceservice.repositories.ConferenceRepository;
 import com.yassine.conferenceservice.repositories.ReviewRepository;
+import com.yassine.conferenceservice.services.ConferenceService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.PagedModel;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/v1/conferences")
+@RequiredArgsConstructor
 public class ConferenceRestController {
-    @Autowired
-    private ConferenceRepository conferenceRepository;
-    @Autowired
-    private ReviewRepository reviewRepository;
+    private final ConferenceService conferenceService;
 
-    private final KeynoteRestClient keynoteRestClient;
-
-    public ConferenceRestController(KeynoteRestClient keynoteRestClient) {
-        this.keynoteRestClient = keynoteRestClient;
+    @PostMapping
+    public ResponseEntity<ConferenceResponse> createConference(@RequestBody ConferenceRequest request) {
+        ConferenceResponse response = conferenceService.createConference(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/conferences/{id}")
-    public Conference getConference(@PathVariable String id) {
-        Conference conference = conferenceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Conference not found with id: " + id));
+    @GetMapping("/{id}")
+    public ResponseEntity<ConferenceResponse> getConference(@PathVariable String id) {
+        ConferenceResponse response = conferenceService.getConferenceById(id);
+        return ResponseEntity.ok(response);
+    }
 
-        List<Review> reviews = reviewRepository.findByConferenceId(id);
-        conference.setReviews(reviews);
+    @GetMapping
+    public ResponseEntity<List<ConferenceResponse>> getAllConferences() {
+        List<ConferenceResponse> responses = conferenceService.getAllConferences();
+        return ResponseEntity.ok(responses);
+    }
 
-        List<String> keynoteIds = conference.getKeynoteIds();
-
-        List<Keynote> keynotes = keynoteIds.stream()
-                .map(keynoteRestClient::getKeynoteById) // call for each ID
-                .toList();
-
-        conference.setKeynotes(new ArrayList<>(keynotes));
-
-        return conference;
+    @PostMapping("/{id}/reviews")
+    public ResponseEntity<ReviewResponse> addReview(
+            @PathVariable String id,
+            @RequestBody ReviewRequest request) {
+        ReviewResponse response = conferenceService.addReview(id, request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

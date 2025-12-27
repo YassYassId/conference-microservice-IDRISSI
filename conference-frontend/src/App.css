@@ -1,0 +1,205 @@
+.app {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #f8fafc, #e2e8f0);
+}
+
+.header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 60px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url('https://png.pngtree.com/thumb_back/fh260/background/20221228/pngtree-2022-purple-atmospheric-annual-conference-sign-in-board-poster-background-image_1503583.jpg') center/cover no-repeat;
+  opacity: 0.3;
+}
+
+.header-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header h1 {
+  font-size: 3rem;
+  margin: 0;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 1.1rem;
+}
+
+.logout-btn {
+  background: rgba(255,255,255,0.2);
+  border: 1px solid white;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.logout-btn:hover {
+  background: white;
+  color: #667eea;
+}
+
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.section {
+  margin-bottom: 80px;
+}
+
+.section h2 {
+  font-size: 2.2rem;
+  margin-bottom: 30px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.keynote-grid {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.conference-card h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.badge {
+  display: inline-block;
+  background: #667eea;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  margin-bottom: 15px;
+}
+
+.info p {
+  margin: 10px 0;
+  color: #555;
+}
+
+.keynote-card {
+  text-align: center;
+}
+
+.avatar-placeholder {
+  font-size: 4rem;
+  margin-bottom: 15px;
+}
+
+.keynote-card h3 {
+  margin: 10px 0;
+  color: #333;
+}
+
+.role {
+  font-style: italic;
+  color: #667eea;
+  margin: 10px 0;
+}
+
+.email {
+  color: #666;
+  word-break: break-all;
+}
+
+.form-card {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form {
+  display: grid;
+  gap: 16px;
+}
+
+.form input, .form select {
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.primary-btn {
+  padding: 14px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102,126,234,0.4);
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 100px;
+  font-size: 1.5rem;
+}
+
+.error {
+  color: #e74c3c;
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+  .header h1 {
+    font-size: 2.2rem;
+  }
+}

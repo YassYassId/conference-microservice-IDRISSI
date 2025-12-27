@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(name = "keynote-service", url = "http://localhost:8081", fallback = KeynoteFallback.class)
 public interface KeynoteRestClient {
-    @GetMapping("/api/keynotes/{id}")
+    @GetMapping("/v1/keynotes/{id}")
     Keynote getKeynoteById(@PathVariable String id);
 
-    @GetMapping("/api/keynotes")
+    @GetMapping("/v1/keynotes")
     PagedModel<Keynote> getAllKeynotes();
 }

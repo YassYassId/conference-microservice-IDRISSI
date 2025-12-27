@@ -11,6 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.context.annotation.Bean;
 
 import java.util.*;
 
@@ -23,7 +24,7 @@ public class ConferenceServiceApplication {
 	}
 
 	// Create a commandeline runner bean to initialize some data
-//	@Bean
+	@Bean
 	CommandLineRunner commandLineRunner(ConferenceRepository conferenceRepository, ReviewRepository reviewRepository, KeynoteRestClient keynoteRestClient) {
 		return args -> {
 			// --- Initialize Conferences ---

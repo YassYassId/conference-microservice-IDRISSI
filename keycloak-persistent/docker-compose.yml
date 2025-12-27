@@ -10,8 +10,16 @@ services:
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
+
+      # Dev HTTP settings
       KC_HTTP_ENABLED: true
+      KC_HOSTNAME: localhost
       KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_HTTPS: false
+
     command: start-dev
     volumes:
       - keycloak_data:/opt/keycloak/data
+
+volumes:
+  keycloak_data:

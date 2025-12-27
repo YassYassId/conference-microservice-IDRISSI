@@ -41,7 +41,9 @@ public class SecurityConfig {
                                 "/keynote-service/swagger-ui.html",
                                 "/conference-service/v3/api-docs/**",
                                 "/conference-service/swagger-ui/**",
-                                "/conference-service/swagger-ui.html"
+                                "/conference-service/swagger-ui.html",
+                                "/keynote-service/webjars/**",
+                                "/conference-service/webjars/**"
                         ).permitAll()
 
 

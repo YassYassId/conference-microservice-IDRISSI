@@ -46,8 +46,8 @@ public class SecurityConfig {
 
 
                         // Dynamic routing paths - require authentication with role
-                        .pathMatchers("/conference-service/**").hasAnyRole("USER", "ADMIN")
-                        .pathMatchers("/keynote-service/**").hasAnyRole("USER", "ADMIN")
+                        .pathMatchers("/conference-service/v1/**").hasAnyRole("USER", "ADMIN")
+                        .pathMatchers("/keynote-service/v1/**").hasAnyRole("USER", "ADMIN")
 
                         // All other exchanges require authentication
                         .anyExchange().authenticated()

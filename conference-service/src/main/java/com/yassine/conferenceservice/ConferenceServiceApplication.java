@@ -11,7 +11,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.context.annotation.Bean;
 
 import java.util.*;
 
@@ -79,7 +78,8 @@ public class ConferenceServiceApplication {
 			reviewRepository.saveAll(List.of(r1, r2, r3));
 
 			// --- Fetch all keynotes ---
-			List<Keynote> allKeynotes = new ArrayList<>(keynoteRestClient.getAllKeynotes().getContent());
+			List<Keynote> allKeynotes =
+					new ArrayList<>(keynoteRestClient.getAllKeynotes());
 
 			// --- Assign keynotes and IDs to conferences ---
 			Random random = new Random();
